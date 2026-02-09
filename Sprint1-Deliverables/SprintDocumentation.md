@@ -1,4 +1,4 @@
-# Sprint 1 – Standup Notes
+# Standup Notes
 
 
 ## Standup 1
@@ -41,14 +41,14 @@
 - None  
 
 
-# Sprint 1 – Retrospective
+## Retrospective
 
-## What Went Well
+**What Went Well**
 - Quick access to database  
 - Clear division of responsibilities  
 - Good team communication  
 
-## What Didn’t Go Well
+**What Didn’t Go Well**
 - Some ambiguity in event meanings  
 - Initial learning curve with schema  
 
