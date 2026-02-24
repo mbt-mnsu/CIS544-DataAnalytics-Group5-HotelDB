@@ -1,17 +1,25 @@
-## 1. Revenue by Property (Monthly)
-## Business Question: Which hotel properties generate the most revenue each month?
+## 1. Revenue by Property (Monthly-American and Discover only)
+## Business Question: Which hotel properties generate the most monthly revenue through American or Discover payment methods?
+
 SELECT 
-p.name AS property_name, 
-YEAR(t.transaction_date) AS yr, 
-MONTH(t.transaction_date) AS mo, 
-SUM(t.amount) AS total_revenue 
+    p.name AS property_name, 
+    YEAR(t.transaction_date) AS yr, 
+    MONTH(t.transaction_date) AS mo, 
+    SUM(t.amount) AS total_revenue 
 FROM dbo.transact t 
 JOIN dbo.property p 
-ON p.id = t.hotel_id 
-GROUP BY p.name, YEAR(t.transaction_date), MONTH(t.transaction_date) 
-ORDER BY yr, mo, total_revenue DESC; 
+    ON p.id = t.hotel_id 
+WHERE t.payment_method IN ('American', 'Discover')
+GROUP BY 
+    p.name, 
+    YEAR(t.transaction_date), 
+    MONTH(t.transaction_date) 
+ORDER BY 
+    yr, 
+    mo, 
+    total_revenue DESC;
 
-### Purpose: This query shows monthly revenue by property. It helps identify top-performing hotels and detect seasonal revenue patterns.
+### Purpose: This query shows monthly revenue by property for transactions paid using American or Discover cards. It helps identify which properties perform best for these payment methods and observe revenue trends over time.
 
 ## 2. Revenue by Product / Service  
 
