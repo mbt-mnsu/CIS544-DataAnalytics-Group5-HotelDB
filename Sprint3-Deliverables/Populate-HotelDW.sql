@@ -1,14 +1,12 @@
 -- ============================================================
 -- Sprint 3: Populate HotelDW Star Schemas
--- Uses INSERT INTO...SELECT from Hotel DB (same server)
--- Run this in SSMS connected to the SQL Server instance
 -- ============================================================
 
 USE HotelDW;
 GO
 
 -- ============================================================
--- Step 1: Clear all fact tables first (FK constraints)
+-- Step 1: Clearing all fact tables first (FK constraints)
 -- ============================================================
 PRINT '--- Step 1: Clearing fact tables ---';
 
@@ -18,7 +16,7 @@ PRINT 'Fact tables cleared.';
 GO
 
 -- ============================================================
--- Step 2: Clear and reload dimension tables (except dim_date)
+-- Step 2: Clearing and reloading dimension tables (except dim_date)
 -- ============================================================
 PRINT '--- Step 2: Clearing dimension tables ---';
 
@@ -33,7 +31,7 @@ PRINT 'Dimension tables cleared.';
 GO
 
 -- ============================================================
--- Step 3: Populate dim_date (if empty)
+-- Step 3: Populating dim_date (if empty)
 -- ============================================================
 IF NOT EXISTS (SELECT 1 FROM dim_date)
 BEGIN
@@ -66,7 +64,7 @@ ELSE
 GO
 
 -- ============================================================
--- Step 4: Populate dim_property
+-- Step 4: Populating dim_property
 -- ============================================================
 PRINT '--- Step 4: Populating dim_property ---';
 
@@ -80,7 +78,7 @@ SELECT 'dim_property' AS [Table], COUNT(*) AS [Rows] FROM dim_property;
 GO
 
 -- ============================================================
--- Step 5: Populate dim_customer
+-- Step 5: Populating dim_customer
 -- ============================================================
 PRINT '--- Step 5: Populating dim_customer ---';
 
@@ -94,7 +92,7 @@ SELECT 'dim_customer' AS [Table], COUNT(*) AS [Rows] FROM dim_customer;
 GO
 
 -- ============================================================
--- Step 6: Populate dim_product
+-- Step 6: Populating dim_product
 -- ============================================================
 PRINT '--- Step 6: Populating dim_product ---';
 
@@ -108,7 +106,7 @@ SELECT 'dim_product' AS [Table], COUNT(*) AS [Rows] FROM dim_product;
 GO
 
 -- ============================================================
--- Step 7: Populate fact_revenue
+-- Step 7: Populating fact_revenue
 -- Grain: one row per transaction line item
 -- Joins transact + transaction_line + dimension lookups
 -- ============================================================
@@ -136,7 +134,7 @@ SELECT 'fact_revenue' AS [Table], COUNT(*) AS [Rows] FROM fact_revenue;
 GO
 
 -- ============================================================
--- Step 8: Populate fact_checkin
+-- Step 8: Populating fact_checkin
 -- Grain: one row per check-in event
 -- ============================================================
 PRINT '--- Step 8: Populating fact_checkin ---';
