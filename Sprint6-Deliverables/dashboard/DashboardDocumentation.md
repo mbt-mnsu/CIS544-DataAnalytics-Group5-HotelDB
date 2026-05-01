@@ -1,4 +1,4 @@
-# Dashboard Documentation — Sprint 6
+# Dashboard Documentation - Sprint 6
 
 ## Overview
 
