@@ -1,0 +1,90 @@
+=== TABLES: ['customer', 'event', 'property', 'property_rooms', 'room_type', 'sysdiagrams', 'transact', 'transaction_line'] ===
+
+
+--- customer ---
+  id | int | Nullable: NO
+  first_name | nvarchar(96) | Nullable: NO
+  last_name | nvarchar(96) | Nullable: NO
+  email | nvarchar(192) | Nullable: NO
+  phone | varchar(20) | Nullable: NO
+  address | nvarchar(192) | Nullable: NO
+  city | nvarchar(96) | Nullable: NO
+  state | varchar(2) | Nullable: NO
+  zip | varchar(10) | Nullable: NO
+  PK: ['id']
+  Rows: 623710
+
+--- event ---
+  id | int | Nullable: NO
+  customer_id | int | Nullable: NO
+  event_code | varchar(20) | Nullable: NO
+  property_id | int | Nullable: NO
+  event_date | date | Nullable: NO
+  PK: ['id']
+  FK: customer_id -> customer.id
+  FK: property_id -> property.id
+  Rows: 17822709
+
+--- property ---
+  id | int | Nullable: NO
+  name | nvarchar(192) | Nullable: NO
+  street_address | nvarchar(192) | Nullable: NO
+  city | nvarchar(96) | Nullable: NO
+  state | varchar(2) | Nullable: NO
+  zip | varchar(10) | Nullable: NO
+  email | nvarchar(192) | Nullable: NO
+  website | nvarchar(192) | Nullable: NO
+  phone | varchar(20) | Nullable: NO
+  PK: ['id']
+  Rows: 245
+
+--- property_rooms ---
+  id | int | Nullable: NO
+  property_id | int | Nullable: NO
+  room_type_id | int | Nullable: NO
+  count | int | Nullable: NO
+  price | decimal(10,2) | Nullable: NO
+  resort_fee | decimal(10,2) | Nullable: NO
+  PK: ['id']
+  FK: property_id -> property.id
+  FK: room_type_id -> room_type.id
+  Rows: 797
+
+--- room_type ---
+  id | int | Nullable: NO
+  code | varchar(10) | Nullable: NO
+  description | nvarchar(192) | Nullable: NO
+  PK: ['id']
+  Rows: 5
+
+--- sysdiagrams ---
+  name | nvarchar(128) | Nullable: NO
+  principal_id | int | Nullable: NO
+  diagram_id | int | Nullable: NO
+  version | int | Nullable: YES
+  definition | varbinary(-1) | Nullable: YES
+  PK: ['diagram_id']
+  Rows: 0
+
+--- transact ---
+  id | int | Nullable: NO
+  transaction_date | datetime | Nullable: NO
+  customer_id | int | Nullable: NO
+  hotel_id | int | Nullable: NO
+  amount | decimal(10,2) | Nullable: NO
+  payment_method | varchar(20) | Nullable: NO
+  payment_card_stub | varchar(20) | Nullable: YES
+  PK: ['id']
+  FK: customer_id -> customer.id
+  FK: hotel_id -> property.id
+  Rows: 8905489
+
+--- transaction_line ---
+  id | int | Nullable: NO
+  transaction_id | int | Nullable: NO
+  description | nvarchar(192) | Nullable: NO
+  amount_per | decimal(10,2) | Nullable: NO
+  quantity | int | Nullable: NO
+  PK: ['id']
+  FK: transaction_id -> transact.id
+  Rows: 29373666
