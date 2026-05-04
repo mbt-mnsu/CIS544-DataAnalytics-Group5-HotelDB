@@ -1,5 +1,5 @@
 """
-Sprint 6 — Comprehensive Analytics Dashboard
+Sprint 6 - Comprehensive Analytics Dashboard
 ==============================================
 Multi-page Streamlit dashboard for HotelDW data warehouse.
 
@@ -56,7 +56,7 @@ def q(sql):
 # ============================================================
 
 st.set_page_config(
-    page_title="Hotel Analytics Dashboard",
+    page_title="HotelDW Analytics Dashboard",
     page_icon="🏨",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -85,7 +85,7 @@ st.markdown("""
 # ============================================================
 
 with st.sidebar:
-    st.title("🏨 Hotel Chain Analytics")
+    st.title("🏨 HotelDW")
     st.caption("Comprehensive Analytics Dashboard")
     st.divider()
 
@@ -544,4 +544,4 @@ with tab4:
 # Footer
 # ============================================================
 st.divider()
-st.caption("Dashboard built with Streamlit + Plotly | CIS 444/544")
+st.caption("Dashboard built with Streamlit + Plotly | Data from HotelDW (SQL Server) | Sprint 6 — CIS 444/544")
