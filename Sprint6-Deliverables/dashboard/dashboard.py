@@ -85,7 +85,7 @@ st.markdown("""
 # ============================================================
 
 with st.sidebar:
-    st.title("🏨 HotelDW")
+    st.title("🏨 Hotel Chain Analytics")
     st.caption("Comprehensive Analytics Dashboard")
     st.divider()
 
@@ -221,7 +221,7 @@ with tab1:
                                labels={'period': 'Month', 'revenue': 'Revenue ($)'})
                 fig1.update_layout(height=380, hovermode='x unified',
                                    xaxis_tickangle=-45, showlegend=False)
-                st.plotly_chart(fig1, use_container_width=True)
+                st.plotly_chart(fig1, width='stretch')
             else:
                 st.info("No revenue data in selected range.")
         except Exception as e:
@@ -246,7 +246,7 @@ with tab1:
                 fig_pay.update_layout(height=380, showlegend=True,
                                       legend=dict(orientation="h", y=-0.15))
                 fig_pay.update_traces(textposition='inside', textinfo='percent+label')
-                st.plotly_chart(fig_pay, use_container_width=True)
+                st.plotly_chart(fig_pay, width='stretch')
             else:
                 st.info("No data.")
         except Exception as e:
@@ -274,7 +274,7 @@ with tab1:
                               labels={'revenue': 'Revenue ($)', 'property_name': 'Property'})
             fig_prop.update_layout(height=max(350, top_n * 30), yaxis=dict(autorange='reversed'),
                                    coloraxis_showscale=False, showlegend=False)
-            st.plotly_chart(fig_prop, use_container_width=True)
+            st.plotly_chart(fig_prop, width='stretch')
         else:
             st.info("No data.")
     except Exception as e:
@@ -342,7 +342,7 @@ with tab2:
                                     coloraxis_showscale=False)
             fig_labor.add_hline(y=30, line_dash="dash", line_color="red",
                                 annotation_text="30% benchmark")
-            st.plotly_chart(fig_labor, use_container_width=True)
+            st.plotly_chart(fig_labor, width='stretch')
         else:
             st.info("No data.")
     except Exception as e:
@@ -374,7 +374,7 @@ with tab2:
                             labels={'checkins': 'Check-ins', 'property_name': 'Property'})
             fig_wk.update_layout(height=450, xaxis_tickangle=-45,
                                  legend=dict(orientation="h", y=1.05))
-            st.plotly_chart(fig_wk, use_container_width=True)
+            st.plotly_chart(fig_wk, width='stretch')
         else:
             st.info("No data.")
     except Exception as e:
@@ -438,7 +438,7 @@ with tab3:
                                     y=df_vs['gift_shop_revenue'], marker_color=COLOR_PALETTE[3]))
             fig_vs.update_layout(barmode='group', height=450, xaxis_tickangle=-45,
                                  legend=dict(orientation="h", y=1.05))
-            st.plotly_chart(fig_vs, use_container_width=True)
+            st.plotly_chart(fig_vs, width='stretch')
         else:
             st.info("No data.")
     except Exception as e:
@@ -466,7 +466,7 @@ with tab3:
             fig_cat.update_layout(height=max(300, len(df_cat) * 35),
                                   yaxis=dict(autorange='reversed'),
                                   coloraxis_showscale=False)
-            st.plotly_chart(fig_cat, use_container_width=True)
+            st.plotly_chart(fig_cat, width='stretch')
         else:
             st.info("No data.")
     except Exception as e:
@@ -505,7 +505,7 @@ with tab4:
                                   size='revenue', size_max=20,
                                   labels={'amenity_count': '# Amenities', 'revenue': 'Revenue ($)'})
             fig_amen.update_layout(height=450, coloraxis_showscale=False)
-            st.plotly_chart(fig_amen, use_container_width=True)
+            st.plotly_chart(fig_amen, width='stretch')
         else:
             st.info("No data.")
     except Exception as e:
@@ -533,7 +533,7 @@ with tab4:
                                  color_continuous_scale='YlOrRd',
                                  labels={'x': 'Month', 'y': 'Year', 'color': 'Check-ins'})
             fig_heat.update_layout(height=300)
-            st.plotly_chart(fig_heat, use_container_width=True)
+            st.plotly_chart(fig_heat, width='stretch')
         else:
             st.info("No data.")
     except Exception as e:
@@ -544,4 +544,4 @@ with tab4:
 # Footer
 # ============================================================
 st.divider()
-st.caption("Dashboard built with Streamlit + Plotly | Data from HotelDW (SQL Server) | Sprint 6 — CIS 444/544")
+st.caption("Dashboard built with Streamlit + Plotly | CIS 444/544")
