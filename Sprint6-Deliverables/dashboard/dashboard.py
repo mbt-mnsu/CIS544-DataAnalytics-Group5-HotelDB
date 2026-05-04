@@ -56,7 +56,7 @@ def q(sql):
 # ============================================================
 
 st.set_page_config(
-    page_title="HotelDW Analytics Dashboard",
+    page_title="Hotel Analytics Dashboard",
     page_icon="🏨",
     layout="wide",
     initial_sidebar_state="expanded",
