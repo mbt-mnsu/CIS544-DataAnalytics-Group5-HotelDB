@@ -5,7 +5,8 @@ import requests
 
 API_BASE = "https://api.github.com"
 HEADERS = {
-    "Accept": "application/vnd.github.inertia-preview+json",
+    "Accept": "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2026-11-28",
 }
 
 
@@ -31,7 +32,14 @@ def github_request(method, url, token, **kwargs):
 
 def get_repo_projects(owner, repo, token):
     url = f"{API_BASE}/repos/{owner}/{repo}/projects"
-    return github_request("GET", url, token, params={"per_page": 100})
+    try:
+        return github_request("GET", url, token, params={"per_page": 100})
+    except SystemExit as error:
+        message = str(error)
+        if "404" in message:
+            print("Warning: GitHub Projects API returned 404. Repository project boards may not be available with this token or API version.")
+            return None
+        raise
 
 
 def create_repo_project(owner, repo, token, name, body=""):
@@ -129,29 +137,25 @@ def main():
     project_body = project.get("body", "")
     print(f"Searching for existing project '{project_name}' in {owner}/{repo}...")
     projects = get_repo_projects(owner, repo, token)
-    match = next((p for p in projects if p.get("name") == project_name), None)
 
-    if match:
-        project_id = match["id"]
-        print(f"Found existing project with ID {project_id}. Reusing it.")
+    project_id = None
+    columns_by_name = {}
+    if projects is not None:
+        match = next((p for p in projects if p.get("name") == project_name), None)
+        if match:
+            project_id = match["id"]
+            print(f"Found existing project with ID {project_id}. Reusing it.")
+        else:
+            print(f"Creating project '{project_name}'...")
+            created = create_repo_project(owner, repo, token, project_name, project_body)
+            project_id = created["id"]
+            print(f"Created project with ID {project_id}.")
+
+        print("Loading columns...")
+        existing_columns = get_project_columns(project_id, token)
+        columns_by_name = {c["name"]: c for c in existing_columns}
     else:
-        print(f"Creating project '{project_name}'...")
-        created = create_repo_project(owner, repo, token, project_name, project_body)
-        project_id = created["id"]
-        print(f"Created project with ID {project_id}.")
-
-    print("Loading columns...")
-    existing_columns = get_project_columns(project_id, token)
-    columns_by_name = {c["name"]: c for c in existing_columns}
-
-    for column_def in project.get("columns", []):
-        name = column_def.get("name")
-        if name in columns_by_name:
-            print(f"Column '{name}' already exists.")
-            continue
-        print(f"Creating column '{name}'...")
-        created = create_project_column(project_id, token, name)
-        columns_by_name[name] = created
+        print("Project board API unavailable; will create issues only.")
 
     existing_issues = get_repo_issues(owner, repo, token)
     issues_by_title = {issue["title"]: issue for issue in existing_issues}
@@ -174,7 +178,7 @@ def main():
             issue = create_repo_issue(owner, repo, token, title, body, labels)
             issues_by_title[title] = issue
 
-        if column_name:
+        if project_id is not None and column_name:
             column = columns_by_name.get(column_name)
             if not column:
                 raise SystemExit(f"Column '{column_name}' is not defined in project columns.")
@@ -190,6 +194,10 @@ def main():
             else:
                 print(f"Adding issue card to '{column_name}': {title}")
                 create_card(column_id, token, issue_id=issue["id"])
+
+    if project_id is None:
+        print("Completed issue creation; project board actions were skipped because the Projects API is unavailable.")
+        return
 
     if "cards" not in project:
         print("No cards defined in project definition. Project issues created.")
