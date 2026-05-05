@@ -1,0 +1,30 @@
+name: Create GitHub Project Board
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  projects: write
+
+jobs:
+  create_project_board:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: python -m pip install requests pyyaml
+
+      - name: Create or update project board
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python .github/scripts/create_github_project_board.py .github/project-board-definition.yml

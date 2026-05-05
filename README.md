@@ -26,8 +26,9 @@ The project is developed across six sprints using an Agile methodology and inclu
 - GitHub Projects  
   - Used to track tasks, assignments, sprint work, and overall progress.
 
- 
 
+
+ 
 ## Project Scope
 
 This project addresses the following areas:
